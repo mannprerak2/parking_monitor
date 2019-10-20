@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   void load() async {
     timer?.cancel();
 
-    timer = Timer.periodic(Duration(seconds: 4), (t) {
+    timer = Timer.periodic(Duration(seconds: 2), (t) {
       getStatus();
     });
     loading = true;
@@ -42,12 +42,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> getStatus() async {
-    print("getStatus-start");
     Map<String, dynamic> map = (await dio.get('/status')).data;
     setState(() {
       dummy['statuses'] = map['statuses'];
     });
-    print("getStatus-end");
   }
 
   @override
@@ -56,6 +54,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Parking-Monitor',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColor: Colors.blue[900],
+        accentColor: Colors.blue[900]
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -92,7 +92,7 @@ class PlotterState extends State<Plotter> {
         child: CustomPaint(
           foregroundPainter: PaintBox(MediaQuery.of(context).size),
           child: Container(
-            color: Colors.grey[700],
+            color: Colors.grey[200],
           ),
         ),
       ),
@@ -107,10 +107,10 @@ class PaintBox extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
-    paint.strokeWidth = 5;
+    paint.strokeWidth = 3;
 
     for (int i = 0; i < (dummy["size"]); i++) {
-      if (dummy['statuses'][i]==1)
+      if (dummy['statuses'][i]==0)
         paint.color = Colors.red;
       else
         paint.color = Colors.green;
